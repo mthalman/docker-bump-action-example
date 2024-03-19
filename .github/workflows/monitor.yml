@@ -1,0 +1,16 @@
+name: Monitor for Base Image Update
+
+on:
+  schedule:
+  - cron: "0 2 * * *"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: mthalman/docker-bump-action@v0
+        with:
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:latest
+          base-image-name: alpine:latest
