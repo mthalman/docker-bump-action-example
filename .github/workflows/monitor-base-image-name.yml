@@ -1,0 +1,18 @@
+name: Monitor for Base Image Update (using base image name)
+
+on:
+  schedule:
+  # At midnight on Sundays
+  - cron: "0 0 * * 0"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mthalman/docker-bump-action@v0
+        with:
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:latest
+          base-image-name: alpine:latest
