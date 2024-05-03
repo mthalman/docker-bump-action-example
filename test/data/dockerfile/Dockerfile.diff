@@ -1,0 +1,4 @@
+FROM alpine:3.18 AS base
+RUN echo "Hello World!"
+
+FROM base AS test

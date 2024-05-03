@@ -1,4 +1,4 @@
-name: Monitor for Base Image Update (using base image name)
+name: Monitor (base image name)
 
 on:
   schedule:
