@@ -16,6 +16,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      
+      - name: Output Rebuild Info
+        if: ${{ github.event.client_payload }}
+        shell: pwsh
+        run: |
+          $updates = '${{ toJson(github.event.client_payload.updates) }}' | ConvertFrom-Json
+          foreach ($update in $updates) {
+            echo "Rebuilding $($update.targetImageName) to be in sync with $($update.baseImageName)"
+          }
 
       # https://github.com/docker/setup-buildx-action
       - name: Set up Docker Buildx
