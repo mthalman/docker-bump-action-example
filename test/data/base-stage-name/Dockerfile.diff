@@ -1,0 +1,6 @@
+FROM scratch AS build
+
+FROM alpine:3.18 AS app
+RUN echo "Hello World!"
+
+FROM build AS test

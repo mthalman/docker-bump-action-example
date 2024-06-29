@@ -1,0 +1,86 @@
+name: Monitor Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: mthalman/docker-bump-action@dev
+        id: base-image-name-same
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:latest
+          base-image-name: alpine:latest
+      - name: Base Image Name (same)
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-image-name/expected-payload.same.json"
+        env:
+          PAYLOAD: ${{ steps.base-image-name-same.outputs.dispatch-payload }}
+
+      - uses: mthalman/docker-bump-action@dev
+        id: base-image-name-diff
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:latest
+          base-image-name: alpine:3.18
+      - name: Base Image Name (different)
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-image-name/expected-payload.diff.json"
+        env:
+          PAYLOAD: ${{ steps.base-image-name-diff.outputs.dispatch-payload }}
+
+      - uses: mthalman/docker-bump-action@dev
+        id: dockerfile-same
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:latest
+          dockerfile: ${{ github.workspace }}/test/data/dockerfile/Dockerfile.same
+      - name: Dockerfile (same)
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/dockerfile/expected-payload.same.json"
+        env:
+          PAYLOAD: ${{ steps.dockerfile-same.outputs.dispatch-payload }}
+
+      - uses: mthalman/docker-bump-action@dev
+        id: dockerfile-diff
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:latest
+          dockerfile: ${{ github.workspace }}/test/data/dockerfile/Dockerfile.diff
+      - name: Dockerfile (different)
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/dockerfile/expected-payload.diff.json"
+        env:
+          PAYLOAD: ${{ steps.dockerfile-diff.outputs.dispatch-payload }}
+
+      - uses: mthalman/docker-bump-action@dev
+        id: base-stage-name-same
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:latest
+          dockerfile: ${{ github.workspace }}/test/data/base-stage-name/Dockerfile.same
+          base-stage-name: app
+      - name: Base Stage Name (same)
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-stage-name/expected-payload.same.json"
+        env:
+          PAYLOAD: ${{ steps.base-stage-name-same.outputs.dispatch-payload }}
+
+      - uses: mthalman/docker-bump-action@dev
+        id: base-stage-name-diff
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:latest
+          dockerfile: ${{ github.workspace }}/test/data/base-stage-name/Dockerfile.diff
+          base-stage-name: app
+      - name: Base Stage Name (different)
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-stage-name/expected-payload.diff.json"
+        env:
+          PAYLOAD: ${{ steps.base-stage-name-diff.outputs.dispatch-payload }}

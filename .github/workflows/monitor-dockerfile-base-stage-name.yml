@@ -1,4 +1,4 @@
-name: Monitor for Base Image Update (using Dockerfile with base stage name)
+name: Monitor (Dockerfile, base stage name)
 
 on:
   schedule:
