@@ -47,3 +47,23 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      
+      # Push another version of the image which has a label
+      - name: Build and push Docker image
+        id: build-and-push-base-label
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-label
+          labels: org.opencontainers.image.base.name=alpine:latest
+
+      # Push another version of the image which has an annotation
+      - name: Build and push Docker image
+        id: build-and-push-base-annotation
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:base-annotation
+          annotations: org.opencontainers.image.base.name=alpine:latest
