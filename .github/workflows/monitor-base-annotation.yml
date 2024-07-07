@@ -1,0 +1,17 @@
+name: Monitor (base label)
+
+on:
+  schedule:
+  # At midnight on Thursdays
+  - cron: "0 0 * * 4"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mthalman/docker-bump-action@v0
+        with:
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:base-annotation

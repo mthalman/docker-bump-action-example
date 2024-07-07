@@ -84,3 +84,25 @@ jobs:
         run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-stage-name/expected-payload.diff.json"
         env:
           PAYLOAD: ${{ steps.base-stage-name-diff.outputs.dispatch-payload }}
+      
+      - uses: mthalman/docker-bump-action@dev
+        id: base-label
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:base-label
+      - name: Base Label
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-label/expected-payload.same.json"
+        env:
+          PAYLOAD: ${{ steps.base-label.outputs.dispatch-payload }}
+      
+      - uses: mthalman/docker-bump-action@dev
+        id: base-annotation
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:base-annotation
+      - name: Base Annotation
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-annotation/expected-payload.same.json"
+        env:
+          PAYLOAD: ${{ steps.base-annotation.outputs.dispatch-payload }}
