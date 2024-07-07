@@ -86,23 +86,45 @@ jobs:
           PAYLOAD: ${{ steps.base-stage-name-diff.outputs.dispatch-payload }}
       
       - uses: mthalman/docker-bump-action@dev
-        id: base-label
+        id: base-label-same
         with:
           event-type: test
           target-image-name: ghcr.io/mthalman/docker-bump-action-example:base-label
-      - name: Base Label
+      - name: Base Label (same)
         shell: pwsh
         run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-label/expected-payload.same.json"
         env:
-          PAYLOAD: ${{ steps.base-label.outputs.dispatch-payload }}
+          PAYLOAD: ${{ steps.base-label-same.outputs.dispatch-payload }}
       
       - uses: mthalman/docker-bump-action@dev
-        id: base-annotation
+        id: base-label-diff
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:base-label-diff
+      - name: Base Label (different)
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-label/expected-payload.diff.json"
+        env:
+          PAYLOAD: ${{ steps.base-label-diff.outputs.dispatch-payload }}
+      
+      - uses: mthalman/docker-bump-action@dev
+        id: base-annotation-same
         with:
           event-type: test
           target-image-name: ghcr.io/mthalman/docker-bump-action-example:base-annotation
-      - name: Base Annotation
+      - name: Base Annotation (same)
         shell: pwsh
         run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-annotation/expected-payload.same.json"
         env:
-          PAYLOAD: ${{ steps.base-annotation.outputs.dispatch-payload }}
+          PAYLOAD: ${{ steps.base-annotation-same.outputs.dispatch-payload }}
+      
+      - uses: mthalman/docker-bump-action@dev
+        id: base-annotation-diff
+        with:
+          event-type: test
+          target-image-name: ghcr.io/mthalman/docker-bump-action-example:base-annotation-diff
+      - name: Base Annotation (different)
+        shell: pwsh
+        run: ./test/compare-payload.ps1 "$env:PAYLOAD" "${{ github.workspace }}/test/data/base-annotation/expected-payload.diff.json"
+        env:
+          PAYLOAD: ${{ steps.base-annotation-diff.outputs.dispatch-payload }}
