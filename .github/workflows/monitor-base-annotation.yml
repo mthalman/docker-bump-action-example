@@ -1,4 +1,4 @@
-name: Monitor (base label)
+name: Monitor (base annotation)
 
 on:
   schedule:
