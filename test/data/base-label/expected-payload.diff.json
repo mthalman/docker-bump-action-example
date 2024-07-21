@@ -1,0 +1,11 @@
+{
+  "updates": [
+    {
+      "dockerfile": "",
+      "baseImageDigest" : "library/alpine@<BASE-SHA>",
+      "targetImageDigest" : "ghcr.io/mthalman/docker-bump-action-example@<TARGET-SHA>",
+      "baseImageName" : "alpine:3.18",
+      "targetImageName":"ghcr.io/mthalman/docker-bump-action-example:base-label-diff"
+    }
+  ]
+}
